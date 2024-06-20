@@ -7,19 +7,6 @@ class Role:
         self.role_name = role_name
 
     @classmethod
-    def create_table(cls):
-        db = DatabaseConnection(DB_CONFIG)
-        db.connect()
-        query = """
-        CREATE TABLE IF NOT EXISTS Role (
-            role_id INT PRIMARY KEY,
-            role_name VARCHAR(50) NOT NULL
-        )
-        """
-        db.execute_query(query)
-        db.disconnect()
-
-    @classmethod
     def create_role(cls, role_id, role_name):
         db = DatabaseConnection(DB_CONFIG)
         db.connect()

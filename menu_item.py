@@ -2,19 +2,27 @@ from database.db_connection import DatabaseConnection
 from commons.literals import *
 
 class MenuItem:
-    def __init__(self, item_name, price, availability_status, item_category):
+    def __init__(self, item_id=None, item_name=None, price=None, availability_status=None, item_category=None):
+        self.item_id = item_id
         self.item_name = item_name
         self.price = price
         self.availability_status = availability_status
         self.item_category = item_category
 
-    def add_menu_item(self):
+    def to_dict(self):
+        return {
+            "item_id": self.item_id,
+            "item_name": self.item_name,
+            "price": self.price,
+            "availability_status": self.availability_status,
+            "item_category": self.item_category,
+        }
+    
+    @classmethod
+    def fetch_complete_menu(cls):
         db = DatabaseConnection(DB_CONFIG)
         db.connect()
-        query = '''
-        insert into menu (item_name, price, availability_status, item_category) values (%s,%s,%s,%s);
-        '''
-        values = (self.item_name, self.price, self.availability_status, self.item_category)
-        db.execute_query(query, values)
+        query = "SELECT * FROM menu_item;"
+        menu_items = db.fetch_all(query)
         db.disconnect()
-        
+        return menu_items

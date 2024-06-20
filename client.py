@@ -20,34 +20,3 @@ class Client:
     def close(self):
         self.client_socket.close()
         print("Connection closed")
-
-def main():
-    client = Client(SERVER_IP, SERVER_PORT)
-    client.connect()
-
-    try:
-        inClient = True
-        while inClient:
-            if not inClient:
-                break
-            email = input("Enter your email to login to the system: ")
-            response = client.send_message(email)
-            if(response.lower() == "admin"):
-                RoleBasedMenu.admin_menu()
-            elif(response.lower() == "chef"):
-                RoleBasedMenu.chef_menu()
-            elif(response.lower() == "employee"):
-                RoleBasedMenu.employee_menu()
-            else:
-                print(response)
-            
-            choice = input("\nDo you want to continue with the system (if not enter exit): ")
-            if(choice.lower() == "exit"):
-                inClient = False
-    except KeyboardInterrupt:
-        pass
-    finally:
-        client.close()
-
-if __name__ == "__main__":
-    main()
