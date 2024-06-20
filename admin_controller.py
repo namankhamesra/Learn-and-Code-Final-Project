@@ -1,4 +1,3 @@
-from database.db_connection import DatabaseConnection
 from menu_item import MenuItem
 import json
 

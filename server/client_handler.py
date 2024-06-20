@@ -1,5 +1,6 @@
 import json
 import sys
+from chef_service import ChefService
 sys.path.append("..")
 from admin_service import AdminService
 from authentication import AuthService
@@ -40,6 +41,18 @@ class ClientHandler:
                     elif(request['action'] == "FETCH_COMPLETE_MENU"):
                         menu_items = MenuItem.fetch_complete_menu()
                         self.client_socket.send(json.dumps(menu_items).encode('utf-8'))
+                    elif(request['action'] == "GET_RECOMMENDATION"):
+                        chef_service = ChefService()
+                        recommendations = chef_service.get_recommendation(request['number_of_items_chef_want'])
+                        self.client_socket.send(json.dumps(recommendations).encode('utf-8'))
+                    elif(request['action'] == "ROLL_OUT_MENU"):
+                        chef_service = ChefService()
+                        status = chef_service.roll_out_menu(request['items_to_rollout'])
+                        self.client_socket.send(status.encode('utf-8'))
+                    elif(request['action'] == "VIEW_VOTED_ITEMS"):
+                        chef_service = ChefService()
+                        voted_items = chef_service.view_voted_items(request['date'])
+                        self.client_socket.send(json.dumps(voted_items).encode('utf-8'))
             else:
                 print(f"User Not Authenticated")
                 response = "You are not registered to the system"

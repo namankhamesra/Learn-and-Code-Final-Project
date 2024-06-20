@@ -26,3 +26,11 @@ class MenuItem:
         menu_items = db.fetch_all(query)
         db.disconnect()
         return menu_items
+    
+    def get_item_detail_by_id(self,item_id):
+        db = DatabaseConnection(DB_CONFIG)
+        db.connect()
+        query = f"SELECT * FROM menu_item where item_id in ({item_id});"
+        menu_items = db.fetch_all(query)
+        db.disconnect()
+        return menu_items

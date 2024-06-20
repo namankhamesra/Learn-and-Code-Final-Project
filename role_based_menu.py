@@ -1,4 +1,5 @@
 from admin_controller import AdminController
+from chef_controller import ChefController
 
 class RoleBasedMenu:
 
@@ -38,7 +39,37 @@ Enter your choice: '''))
 
     @classmethod
     def chef_menu(cls):
-        print("Chef Menu")
+        while True:
+            user_choice = int(input('''
+What do you want to do.....
+                                
+1. Get food recommendation
+2. Roll out menu
+3. View voted food item
+4. View complete menu
+5. Logout
+                                
+Enter your choice: '''))
+            if(user_choice == 1):
+                chef_controller = ChefController()
+                information_need_to_send_to_server = chef_controller.get_recommendation()
+                return information_need_to_send_to_server
+            elif(user_choice == 2):
+                chef_controller = ChefController()
+                information_need_to_send_to_server = chef_controller.roll_out_menu()
+                return information_need_to_send_to_server
+            elif(user_choice == 3):
+                chef_controller = ChefController()
+                information_need_to_send_to_server = chef_controller.view_voted_items()
+                return information_need_to_send_to_server
+            elif(user_choice == 4):
+                chef_controller = ChefController()
+                information_need_to_send_to_server = chef_controller.fetch_complete_menu()
+                return information_need_to_send_to_server
+            elif(user_choice == 5):
+                return "LOGOUT"
+            else:
+                print("Invalid choice..!")
 
     @classmethod
     def employee_menu(cls):
