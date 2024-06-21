@@ -1,6 +1,7 @@
 import json
 import sys
 from chef_service import ChefService
+from employee_service import EmployeeService
 sys.path.append("..")
 from admin_service import AdminService
 from authentication import AuthService
@@ -19,8 +20,10 @@ class ClientHandler:
             user_details = authenticate_user.login(email)
             if len(user_details) == 1:
                 user_role = user_details[0][2]
-                response = user_role
-                self.client_socket.send(response.encode('utf-8'))
+                user_id = user_details[0][3]
+                # response = user_role
+                self.client_socket.send(json.dumps([user_role,user_id]).encode('utf-8'))
+                # self.client_socket.send(user_role.encode('utf-8'))
                 while True:
                     data = self.client_socket.recv(1024)
                     if not data:
@@ -53,6 +56,18 @@ class ClientHandler:
                         chef_service = ChefService()
                         voted_items = chef_service.view_voted_items(request['date'])
                         self.client_socket.send(json.dumps(voted_items).encode('utf-8'))
+                    elif(request['action'] == "PROVIDE_FEEDBACK"):
+                        employee_service = EmployeeService()
+                        status = employee_service.provide_feedback(request['data'])
+                        self.client_socket.send(status.encode('utf-8'))
+                    elif(request['action'] == "VIEW_NEXT_DAY_MENU"):
+                        employee_service = EmployeeService()
+                        next_day_items = employee_service.view_next_day_menu()
+                        self.client_socket.send(json.dumps(next_day_items).encode('utf-8'))
+                    elif(request['action'] == "VOTE_FOR_FOOD_ITEM"):
+                        employee_service = EmployeeService()
+                        status = employee_service.vote_for_food_item(request['data'])
+                        self.client_socket.send(status.encode('utf-8'))
             else:
                 print(f"User Not Authenticated")
                 response = "You are not registered to the system"
