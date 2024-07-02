@@ -63,9 +63,9 @@ def main():
                     response = client.send_message(request)
                     try:
                         response = json.loads(response)
-                        print("Item Id".ljust(10), "Item Name".ljust(20), "Price".ljust(20), "Item Category".ljust(0))
+                        print("Item Id".ljust(10), "Item Name".ljust(20), "Price".ljust(20), "Availability Status".ljust(20), "Item Category".ljust(0))
                         for i in response:
-                            print(str(i[0]).ljust(10),str(i[1]).ljust(20),str(i[2]).ljust(20),str(i[3]).ljust(20))
+                            print(str(i[0]).ljust(10),str(i[1]).ljust(20),str(i[2]).ljust(20),str(i[3]).ljust(20),str(i[4]).ljust(20))
                     except Exception as e:
                         print(response)
             else:

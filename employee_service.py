@@ -1,8 +1,6 @@
 from commons.literals import DB_CONFIG
 from database.db_connection import DatabaseConnection
 import datetime
-import json
-
 from sentiment_analyzer import SentimentAnalyzer
 
 
@@ -23,16 +21,28 @@ class EmployeeService:
         status = "Item added successfully"
         return status
     
-    def view_next_day_menu(self,data):
-        db = DatabaseConnection(DB_CONFIG)
-        db.connect()
-        query = '''
-        select Distinct item_id, item_name, price, type from item_for_next_day n join item_category i on n.item_category = i.id;
-        '''
-        next_day_items = db.fetch_all(query)
-        db.disconnect()
-        return next_day_items
+    def view_next_day_menu(self):
+        try:
+            db = DatabaseConnection(DB_CONFIG)
+            db.connect()
+            query = f"select item_id,item_name,price,availability_status,item_category from item_for_next_day;"
+            next_day_menu = db.fetch_all(query)
+            db.disconnect()
+            return next_day_menu
+        except Exception as e:
+            print(e)
+            status = "Error in next day menu items"
+        return status
     
     def vote_for_food_item(self, item_ids):
-        db = DatabaseConnection(DB_CONFIG)
-        db.connect()
+        try:
+            db = DatabaseConnection(DB_CONFIG)
+            db.connect()
+            query = f"select item_id,item_name,price,availability_status,item_category from item_for_next_day;"
+            next_day_menu = db.fetch_all(query)
+            db.disconnect()
+            return next_day_menu
+        except Exception as e:
+            print(e)
+            status = "Error in next day menu items"
+        return status

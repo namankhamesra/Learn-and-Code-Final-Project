@@ -24,11 +24,8 @@ class EmployeeController:
         action = "VOTE_FOR_FOOD_ITEM"
         num_items = int(input("Enter how many items you want to vote for: "))
         item_ids = []
-        item_category = []
         for i in range(num_items):
             item_id = int(input("Enter item id: "))
-            category = int(input("Enter item category: "))
             item_ids.append(item_id)
-            item_category.append(category)
-        detail_to_send_to_server = json.dumps({'action': action, 'data': {'items_to_vote': item_ids, 'item_categorys': item_category, 'user_id': user_id}})
+        detail_to_send_to_server = json.dumps({'action': action, 'data': {'items_to_vote': item_ids, 'user_id': user_id}})
         return detail_to_send_to_server
