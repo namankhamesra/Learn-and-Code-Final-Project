@@ -29,3 +29,8 @@ class EmployeeController:
             item_ids.append(item_id)
         detail_to_send_to_server = json.dumps({'action': action, 'data': {'items_to_vote': item_ids, 'user_id': user_id}})
         return detail_to_send_to_server
+    
+    def view_notification(self):
+        action = "EMPLOYEE_VIEW_NOTIFICATION"
+        detail_to_send_to_server = json.dumps({'action': action})
+        return detail_to_send_to_server

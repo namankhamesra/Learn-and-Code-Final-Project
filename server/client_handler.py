@@ -72,6 +72,13 @@ class ClientHandler:
                         employee_service = EmployeeService()
                         status = employee_service.vote_for_food_item(request['data'])
                         self.client_socket.send(status.encode('utf-8'))
+                    elif(request['action'] == "EMPLOYEE_VIEW_NOTIFICATION"):
+                        employee_service = EmployeeService()
+                        notification = employee_service.view_notification()
+                        if(notification == "Error in fetching notification"):
+                            self.client_socket.send(notification.encode('utf-8'))
+                        else:
+                            self.client_socket.send(json.dumps(notification).encode('utf-8'))
             else:
                 print(f"User Not Authenticated")
                 response = "You are not registered to the system"

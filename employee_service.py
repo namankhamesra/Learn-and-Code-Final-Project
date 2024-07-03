@@ -50,3 +50,18 @@ class EmployeeService:
             print(e)
             status = "Error in next day menu items"
         return status
+    
+    def view_notification(self):
+        try:
+            db = DatabaseConnection(DB_CONFIG)
+            db.connect()
+            yesterday_date = str((datetime.datetime.today() - datetime.timedelta(days=1)).date())
+            query = f"select message from notification where notification_date >= %s;"
+            values = (yesterday_date,)
+            notification = db.fetch_all(query,values)
+            db.disconnect()
+            return notification
+        except Exception as e:
+            print(e)
+            status = "Error in fetching notification"
+        return status

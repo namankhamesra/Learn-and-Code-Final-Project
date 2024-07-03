@@ -87,7 +87,8 @@ What do you want to do.....
 2. Provide feedback
 3. Vote for food item
 4. View complete menu
-5. Logout
+5. View notification
+6. Logout
                                 
 Enter your choice: '''))
             if(user_choice == 1):
@@ -107,6 +108,10 @@ Enter your choice: '''))
                 information_need_to_send_to_server = employee_controller.fetch_complete_menu()
                 return information_need_to_send_to_server
             elif(user_choice == 5):
+                employee_controller = EmployeeController()
+                information_need_to_send_to_server = employee_controller.view_notification()
+                return information_need_to_send_to_server
+            elif(user_choice == 6):
                 return "LOGOUT"
             else:
                 print("Invalid choice..!")
