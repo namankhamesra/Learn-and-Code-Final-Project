@@ -48,7 +48,8 @@ What do you want to do.....
 2. Roll out menu
 3. View voted food item
 4. View complete menu
-5. Logout
+5. Roll out finalized menu
+6. Logout
                                 
 Enter your choice: '''))
             if(user_choice == 1):
@@ -68,6 +69,10 @@ Enter your choice: '''))
                 information_need_to_send_to_server = chef_controller.fetch_complete_menu()
                 return information_need_to_send_to_server
             elif(user_choice == 5):
+                chef_controller = ChefController()
+                information_need_to_send_to_server = chef_controller.roll_out_finalized_menu()
+                return information_need_to_send_to_server
+            elif(user_choice == 6):
                 return "LOGOUT"
             else:
                 print("Invalid choice..!")

@@ -52,6 +52,10 @@ class ClientHandler:
                         chef_service = ChefService()
                         status = chef_service.roll_out_menu(request['items_to_rollout'])
                         self.client_socket.send(status.encode('utf-8'))
+                    elif(request['action'] == "ROLL_OUT_FINALIZED_MENU"):
+                        chef_service = ChefService()
+                        status = chef_service.roll_out_finalized_menu(request['items_to_rollout'])
+                        self.client_socket.send(status.encode('utf-8'))
                     elif(request['action'] == "VIEW_VOTED_ITEMS"):
                         chef_service = ChefService()
                         voted_items = chef_service.view_voted_items(request['date'])

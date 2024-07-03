@@ -24,6 +24,20 @@ class ChefService:
             status = "Error while rolling out menu"
         return status
     
+    def roll_out_finalized_menu(self,items_to_rollout):
+        items_to_rollout = ','.join(map(str,items_to_rollout))
+        try:
+            db = DatabaseConnection(DB_CONFIG)
+            db.connect()
+            query = f"create or replace view finalized_item_for_next_day as select * from menu_item where item_id in ({items_to_rollout});"
+            db.execute_query(query)
+            db.disconnect()
+            status = "Menu rolled out successfully"
+        except Exception as e:
+            print(e)
+            status = "Error while rolling out menu"
+        return status
+    
     def view_voted_items(self,date):
         try:
             db = DatabaseConnection(DB_CONFIG)

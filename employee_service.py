@@ -34,14 +34,18 @@ class EmployeeService:
             status = "Error in next day menu items"
         return status
     
-    def vote_for_food_item(self, item_ids):
+    def vote_for_food_item(self, data):
         try:
-            db = DatabaseConnection(DB_CONFIG)
-            db.connect()
-            query = f"select item_id,item_name,price,availability_status,item_category from item_for_next_day;"
-            next_day_menu = db.fetch_all(query)
-            db.disconnect()
-            return next_day_menu
+            selection_date = str(datetime.datetime.today().date())
+            for item_id in data['items_to_vote']:
+                print(item_id)
+                db = DatabaseConnection(DB_CONFIG)
+                db.connect()
+                query = '''insert into voted_item (user_id,item_id,selection_date) values (%s,%s,%s)'''
+                values = (data['user_id'], item_id, selection_date)
+                db.execute_query(query, values)
+                db.disconnect()
+            status = "Food item voted successfully"
         except Exception as e:
             print(e)
             status = "Error in next day menu items"

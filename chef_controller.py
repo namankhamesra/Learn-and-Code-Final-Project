@@ -15,7 +15,7 @@ class ChefController:
         print("Enter all the item_ids you want to roll out: ")
         item_ids = []
         for i in range(number_of_items_to_rollout*3):
-            item_id = int(input(f"Enter item id no. {i+1}:"))
+            item_id = int(input(f"Enter item id:"))
             item_ids.append(item_id)
         item_detail_to_send_to_server = json.dumps({'action': action, 'items_to_rollout': item_ids})
         return item_detail_to_send_to_server
@@ -29,4 +29,15 @@ class ChefController:
         action = "VIEW_VOTED_ITEMS"
         yesterday = (datetime.today() - timedelta(days=1)).date()
         item_detail_to_send_to_server = json.dumps({'action': action, 'date':str(yesterday)})
+        return item_detail_to_send_to_server
+    
+    def roll_out_finalized_menu(self):
+        action = "ROLL_OUT_FINALIZED_MENU"
+        number_of_items_to_rollout = int(input("Enter number of items you want to roll out for each meal type: "))
+        print("Enter all the item_ids you want to roll out: ")
+        item_ids = []
+        for i in range(number_of_items_to_rollout*3):
+            item_id = int(input(f"Enter item id:"))
+            item_ids.append(item_id)
+        item_detail_to_send_to_server = json.dumps({'action': action, 'items_to_rollout': item_ids})
         return item_detail_to_send_to_server
