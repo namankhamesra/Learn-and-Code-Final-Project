@@ -22,10 +22,11 @@ class MenuItem:
     def fetch_complete_menu(cls):
         db = DatabaseConnection(DB_CONFIG)
         db.connect()
-        query = "SELECT * FROM menu_item;"
+        query = "SELECT * FROM menu_item where is_deleted = 0;"
         menu_items = db.fetch_all(query)
         db.disconnect()
-        return menu_items
+        response = {"action": "FETCH_COMPLETE_MENU", "data":menu_items}
+        return response
     
     def get_item_detail_by_id(self,item_id):
         db = DatabaseConnection(DB_CONFIG)

@@ -1,4 +1,4 @@
-from admin_controller import AdminController
+from admin.admin_controller import AdminController
 from chef_controller import ChefController
 from employee_controller import EmployeeController
 

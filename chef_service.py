@@ -20,7 +20,6 @@ class ChefService:
             db.disconnect()
             status = "Menu rolled out successfully"
         except Exception as e:
-            print(e)
             status = "Error while rolling out menu"
         return status
     
@@ -35,7 +34,6 @@ class ChefService:
             self.send_notification()
             status = "Menu rolled out successfully"
         except Exception as e:
-            print(e)
             status = "Error while rolling out menu"
         return status
     
@@ -55,7 +53,6 @@ class ChefService:
             db.disconnect()
             print("Notified employees Successfully")
         except Exception as e:
-            print(e)
             print("Error in notifying employees")
     
     def view_voted_items(self,date):
@@ -67,6 +64,5 @@ class ChefService:
             db.disconnect()
             return voted_items
         except Exception as e:
-            print(e)
             status = "Error in fetching voted items"
         return status

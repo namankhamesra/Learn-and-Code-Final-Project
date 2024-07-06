@@ -16,8 +16,6 @@ class DatabaseConnection:
                 password=self.password,
                 database=self.database
             )
-            if self.connection.is_connected():
-                print("Connection to MySQL database was successful")
         except Exception as e:
             print(f"Error connecting to MySQL database: {e}")
             self.connection = None
@@ -25,7 +23,6 @@ class DatabaseConnection:
     def disconnect(self):
         if self.connection and self.connection.is_connected():
             self.connection.close()
-            print("MySQL database connection closed")
 
     def get_cursor(self):
         return self.connection.cursor()
@@ -38,7 +35,6 @@ class DatabaseConnection:
         try:
             cursor.execute(query, params)
             self.connection.commit()
-            print("Query executed successfully")
             return cursor
         except Exception as e:
             print(f"Error executing query: {e}")

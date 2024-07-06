@@ -3,7 +3,7 @@ import sys
 from chef_service import ChefService
 from employee_service import EmployeeService
 sys.path.append("..")
-from admin_service import AdminService
+from admin.admin_service import AdminService
 from authentication import AuthService
 from menu_item import MenuItem
 
@@ -31,19 +31,19 @@ class ClientHandler:
                     request = json.loads(data)
                     if(request['action'] == "ADD_MENU_ITEM"):
                         admin_service = AdminService()
-                        status = admin_service.add_menu_item(request['data'])
-                        self.client_socket.send(status.encode('utf-8'))
+                        response = admin_service.add_menu_item(request['data'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "UPDATE_AVAILABILITY"):
                         admin_service = AdminService()
-                        status = admin_service.update_item_availability(request['data'])
-                        self.client_socket.send(status.encode('utf-8'))
+                        response = admin_service.update_item_availability(request['data'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "DELETE_ITEM"):
                         admin_service = AdminService()
-                        status = admin_service.delete_item_from_menu(request['data'])
-                        self.client_socket.send(status.encode('utf-8'))
+                        response = admin_service.delete_item_from_menu(request['data'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "FETCH_COMPLETE_MENU"):
-                        menu_items = MenuItem.fetch_complete_menu()
-                        self.client_socket.send(json.dumps(menu_items).encode('utf-8'))
+                        response = MenuItem.fetch_complete_menu()
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "GET_RECOMMENDATION"):
                         chef_service = ChefService()
                         recommendations = chef_service.get_recommendation(request['number_of_items_chef_want'])
