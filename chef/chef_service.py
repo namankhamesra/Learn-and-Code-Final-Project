@@ -1,6 +1,7 @@
 from recommendation_system import RecommendationSystem
 from commons.literals import DB_CONFIG
 from database.db_connection import DatabaseConnection
+from notification_service import Notification
 import datetime
 
 class ChefService:
@@ -8,7 +9,8 @@ class ChefService:
     def get_recommendation(self,num_items):
         recommender = RecommendationSystem()
         recommendations = recommender.get_recommendations(num_items)
-        return recommendations
+        response = {"action": "GET_RECOMMENDATION", "data":recommendations}
+        return response
     
     def roll_out_menu(self,items_to_rollout):
         items_to_rollout = ','.join(map(str,items_to_rollout))
@@ -21,7 +23,8 @@ class ChefService:
             status = "Menu rolled out successfully"
         except Exception as e:
             status = "Error while rolling out menu"
-        return status
+        response = {"action": "ROLL_OUT_MENU", "status": status}
+        return response
     
     def roll_out_finalized_menu(self,items_to_rollout):
         items_to_rollout = ','.join(map(str,items_to_rollout))
@@ -35,7 +38,8 @@ class ChefService:
             status = "Menu rolled out successfully"
         except Exception as e:
             status = "Error while rolling out menu"
-        return status
+        response = {"action": "ROLL_OUT_FINALIZED_MENU", "status": status}
+        return response
     
     def send_notification(self):
         try:
@@ -45,13 +49,11 @@ class ChefService:
             item_names = db.fetch_all(query)
             dishes = [dish_name[0] for dish_name in item_names]
             menu_string = ", ".join(dishes)
-            menu_string = f"Tomorrow following items will be prepared -> {menu_string}."
-            current_date = str(datetime.datetime.today().date())
-            query = "insert into notification (message, notification_date, notification_from) values (%s,%s,%s);"
-            values = (menu_string, current_date, "CHEF")
-            db.execute_query(query, values)
+            message = f"Tomorrow following items will be prepared -> {menu_string}."
+            sender = "CHEF"
+            notification = Notification(message,sender)
+            notification.send_notification()
             db.disconnect()
-            print("Notified employees Successfully")
         except Exception as e:
             print("Error in notifying employees")
     
@@ -62,7 +64,7 @@ class ChefService:
             query = f"select item_id, user_id from voted_item where selection_date = '{date}';"
             voted_items = db.fetch_all(query)
             db.disconnect()
-            return voted_items
         except Exception as e:
-            status = "Error in fetching voted items"
-        return status
+            print("Error in fetching voted items")
+        response = {"action": "VIEW_VOTED_ITEMS", "data": voted_items}
+        return response

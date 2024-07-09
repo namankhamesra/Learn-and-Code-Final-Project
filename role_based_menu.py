@@ -1,5 +1,5 @@
 from admin.admin_controller import AdminController
-from chef_controller import ChefController
+from chef.chef_controller import ChefController
 from employee_controller import EmployeeController
 
 class RoleBasedMenu:
@@ -49,7 +49,8 @@ What do you want to do.....
 3. View voted food item
 4. View complete menu
 5. Roll out finalized menu
-6. Logout
+6. View Notification
+7. Logout
                                 
 Enter your choice: '''))
             if(user_choice == 1):
@@ -73,6 +74,10 @@ Enter your choice: '''))
                 information_need_to_send_to_server = chef_controller.roll_out_finalized_menu()
                 return information_need_to_send_to_server
             elif(user_choice == 6):
+                chef_controller = ChefController()
+                information_need_to_send_to_server = chef_controller.view_notification()
+                return information_need_to_send_to_server
+            elif(user_choice == 7):
                 return "LOGOUT"
             else:
                 print("Invalid choice..!")

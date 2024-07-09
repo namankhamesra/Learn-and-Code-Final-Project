@@ -1,7 +1,8 @@
 import json
 import sys
-from chef_service import ChefService
+from chef.chef_service import ChefService
 from employee_service import EmployeeService
+from notification_service import Notification
 sys.path.append("..")
 from admin.admin_service import AdminService
 from authentication import AuthService
@@ -21,9 +22,7 @@ class ClientHandler:
             if len(user_details) == 1:
                 user_role = user_details[0][2]
                 user_id = user_details[0][3]
-                # response = user_role
                 self.client_socket.send(json.dumps([user_role,user_id]).encode('utf-8'))
-                # self.client_socket.send(user_role.encode('utf-8'))
                 while True:
                     data = self.client_socket.recv(1024)
                     if not data:
@@ -46,32 +45,36 @@ class ClientHandler:
                         self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "GET_RECOMMENDATION"):
                         chef_service = ChefService()
-                        recommendations = chef_service.get_recommendation(request['number_of_items_chef_want'])
-                        self.client_socket.send(json.dumps(recommendations).encode('utf-8'))
+                        response = chef_service.get_recommendation(request['number_of_items_chef_want'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "ROLL_OUT_MENU"):
                         chef_service = ChefService()
-                        status = chef_service.roll_out_menu(request['items_to_rollout'])
-                        self.client_socket.send(status.encode('utf-8'))
+                        response = chef_service.roll_out_menu(request['items_to_rollout'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "ROLL_OUT_FINALIZED_MENU"):
                         chef_service = ChefService()
-                        status = chef_service.roll_out_finalized_menu(request['items_to_rollout'])
-                        self.client_socket.send(status.encode('utf-8'))
+                        response = chef_service.roll_out_finalized_menu(request['items_to_rollout'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "VIEW_VOTED_ITEMS"):
                         chef_service = ChefService()
-                        voted_items = chef_service.view_voted_items(request['date'])
-                        self.client_socket.send(json.dumps(voted_items).encode('utf-8'))
+                        response = chef_service.view_voted_items(request['date'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
+                    elif(request['action'] == "VIEW_NOTIFICATION"):
+                        notification = Notification()
+                        response = notification.view_notification(request['data']['request_from'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "PROVIDE_FEEDBACK"):
                         employee_service = EmployeeService()
-                        status = employee_service.provide_feedback(request['data'])
-                        self.client_socket.send(status.encode('utf-8'))
+                        response = employee_service.provide_feedback(request['data'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "VIEW_NEXT_DAY_MENU"):
                         employee_service = EmployeeService()
                         next_day_items = employee_service.view_next_day_menu()
                         self.client_socket.send(json.dumps(next_day_items).encode('utf-8'))
                     elif(request['action'] == "VOTE_FOR_FOOD_ITEM"):
                         employee_service = EmployeeService()
-                        status = employee_service.vote_for_food_item(request['data'])
-                        self.client_socket.send(status.encode('utf-8'))
+                        response = employee_service.vote_for_food_item(request['data'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "EMPLOYEE_VIEW_NOTIFICATION"):
                         employee_service = EmployeeService()
                         notification = employee_service.view_notification()
@@ -82,8 +85,6 @@ class ClientHandler:
             else:
                 print(f"User Not Authenticated")
                 response = "You are not registered to the system"
-
-            
         except (ConnectionResetError, ConnectionAbortedError):
             pass
         finally:

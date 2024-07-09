@@ -14,7 +14,7 @@ class ChefController:
         number_of_items_to_rollout = int(input("Enter number of items you want to roll out for each meal type: "))
         print("Enter all the item_ids you want to roll out: ")
         item_ids = []
-        for i in range(number_of_items_to_rollout*3):
+        for _ in range(number_of_items_to_rollout*3):
             item_id = int(input(f"Enter item id:"))
             item_ids.append(item_id)
         item_detail_to_send_to_server = json.dumps({'action': action, 'items_to_rollout': item_ids})
@@ -40,4 +40,10 @@ class ChefController:
             item_id = int(input(f"Enter item id:"))
             item_ids.append(item_id)
         item_detail_to_send_to_server = json.dumps({'action': action, 'items_to_rollout': item_ids})
+        return item_detail_to_send_to_server
+    
+    def view_notification(self):
+        action = "VIEW_NOTIFICATION"
+        request_from = "CHEF"
+        item_detail_to_send_to_server = json.dumps({'action': action, 'data': {"request_from": request_from}})
         return item_detail_to_send_to_server
