@@ -11,7 +11,7 @@ class EmployeeController:
         action = "PROVIDE_FEEDBACK"
         item_id = int(input("Enter the item_id: "))
         comment = input("Enter comment: ")
-        rating = int(input("Enter rating out of 5: "))
+        rating = float(input("Enter rating out of 5: "))
         item_detail_to_send_to_server = json.dumps({'action': action, 'data': {'user_id':user_id, 'item_id': item_id, 'comment': comment, 'rating': rating}})
         return item_detail_to_send_to_server
     
@@ -31,6 +31,7 @@ class EmployeeController:
         return detail_to_send_to_server
     
     def view_notification(self):
-        action = "EMPLOYEE_VIEW_NOTIFICATION"
-        detail_to_send_to_server = json.dumps({'action': action})
-        return detail_to_send_to_server
+        action = "VIEW_NOTIFICATION"
+        request_from = "EMPLOYEE"
+        item_detail_to_send_to_server = json.dumps({'action': action, 'data': {"request_from": request_from}})
+        return item_detail_to_send_to_server

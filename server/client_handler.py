@@ -1,7 +1,8 @@
 import json
 import sys
 from chef.chef_service import ChefService
-from employee_service import EmployeeService
+from employee.employee_service import EmployeeService
+from feedback_service import Feedback
 from notification_service import Notification
 sys.path.append("..")
 from admin.admin_service import AdminService
@@ -64,13 +65,13 @@ class ClientHandler:
                         response = notification.view_notification(request['data']['request_from'])
                         self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "PROVIDE_FEEDBACK"):
-                        employee_service = EmployeeService()
-                        response = employee_service.provide_feedback(request['data'])
+                        feedback = Feedback()
+                        response = feedback.provide_feedback(request['data'])
                         self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "VIEW_NEXT_DAY_MENU"):
-                        employee_service = EmployeeService()
-                        next_day_items = employee_service.view_next_day_menu()
-                        self.client_socket.send(json.dumps(next_day_items).encode('utf-8'))
+                        next_day_menu = MenuItem()
+                        response = next_day_menu.view_next_day_menu()
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "VOTE_FOR_FOOD_ITEM"):
                         employee_service = EmployeeService()
                         response = employee_service.vote_for_food_item(request['data'])

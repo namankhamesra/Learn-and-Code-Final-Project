@@ -60,27 +60,29 @@ def main():
                     elif(response['action'] == "VIEW_NOTIFICATION"):
                         for message in response['data']:
                             print(message[0])
-                        # print(response['status'])
             elif(user_role.lower() == "employee"):
                 while True:
                     request = RoleBasedMenu.employee_menu(user_id)
                     if(request == "LOGOUT"):
                         break
-                    response = client.send_message(request)
-                    try:
-                        response = json.loads(response)
-                        if(len(response[0]) > 1):
-                            print("Item Id".ljust(10), "Item Name".ljust(20), "Price".ljust(20), "Availability Status".ljust(20), "Item Category".ljust(0))
-                            for i in response:
-                                print(str(i[0]).ljust(10),str(i[1]).ljust(20),str(i[2]).ljust(20),str(i[3]).ljust(20),str(i[4]).ljust(20))
-                        else:
-                            for message in response:
-                                print(message[0])
-                    except Exception as e:
-                        print(response)
+                    response = json.loads(client.send_message(request))
+                    if(response['action'] == "VIEW_NEXT_DAY_MENU"):
+                        print("Item Id".ljust(10), "Item Name".ljust(20), "Price".ljust(20), "Availability Status".ljust(20), "Item Category".ljust(0))
+                        for i in response['data']['next_day_menu']:
+                            print(str(i[0]).ljust(10),str(i[1]).ljust(20),str(i[2]).ljust(20),str(i[3]).ljust(20),str(i[4]).ljust(20))
+                    elif(response['action'] == "FETCH_COMPLETE_MENU"):
+                        print("Item Id".ljust(10), "Item Name".ljust(20), "Price".ljust(20), "Availability Status".ljust(20), "Item Category".ljust(0))
+                        for i in response['data']:
+                            print(str(i[0]).ljust(10),str(i[1]).ljust(20),str(i[2]).ljust(20),str(i[3]).ljust(20),str(i[4]).ljust(20))
+                    elif(response['action'] == "VIEW_NOTIFICATION"):
+                        for message in response['data']:
+                            print(message[0])
+                    elif(response['action'] == "PROVIDE_FEEDBACK"):
+                        print(response['status'])
+                    elif(response['action'] == "VOTE_FOR_FOOD_ITEM"):
+                        print(response['status'])
             else:
                 print(response)
-
             inClient = False
     except KeyboardInterrupt:
         pass

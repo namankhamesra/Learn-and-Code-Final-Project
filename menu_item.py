@@ -20,11 +20,14 @@ class MenuItem:
     
     @classmethod
     def fetch_complete_menu(cls):
-        db = DatabaseConnection(DB_CONFIG)
-        db.connect()
-        query = "SELECT * FROM menu_item where is_deleted = 0;"
-        menu_items = db.fetch_all(query)
-        db.disconnect()
+        try:
+            db = DatabaseConnection(DB_CONFIG)
+            db.connect()
+            query = "SELECT * FROM menu_item where is_deleted = 0;"
+            menu_items = db.fetch_all(query)
+            db.disconnect()
+        except Exception as e:
+            print("Error in fetching complete Menu")
         response = {"action": "FETCH_COMPLETE_MENU", "data":menu_items}
         return response
     
@@ -35,3 +38,15 @@ class MenuItem:
         menu_items = db.fetch_all(query)
         db.disconnect()
         return menu_items
+    
+    def view_next_day_menu(self):
+        try:
+            db = DatabaseConnection(DB_CONFIG)
+            db.connect()
+            query = f"select item_id,item_name,price,availability_status,item_category from item_for_next_day;"
+            next_day_menu = db.fetch_all(query)
+            db.disconnect()
+        except Exception as e:
+            print("Error in next day menu items")
+        response = {"action": "VIEW_NEXT_DAY_MENU", "data":{"next_day_menu": next_day_menu}}
+        return response

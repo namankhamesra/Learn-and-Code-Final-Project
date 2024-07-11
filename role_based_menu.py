@@ -1,6 +1,6 @@
 from admin.admin_controller import AdminController
 from chef.chef_controller import ChefController
-from employee_controller import EmployeeController
+from employee.employee_controller import EmployeeController
 
 class RoleBasedMenu:
 
