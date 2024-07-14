@@ -60,6 +60,12 @@ def main():
                     elif(response['action'] == "VIEW_NOTIFICATION"):
                         for message in response['data']:
                             print(message[0])
+                    elif(response['action'] == "GENERATE_DISCARD_MENU_ITEM"):
+                        print(response['status'])
+                    elif(response['action'] == "REVIEW_DISCARDED_ITEM_LIST"):
+                        print("Item Id".ljust(10), "Item Name".ljust(20), "Average Rating".ljust(20), "Average Sentiment".ljust(20), "Discard list generation date".ljust(0))
+                        for i in response['data']:
+                            print(str(i[0]).ljust(10),str(i[1]).ljust(20),str(i[2]).ljust(20),str(i[3]).ljust(20),str(i[4]).ljust(20))
             elif(user_role.lower() == "employee"):
                 while True:
                     request = RoleBasedMenu.employee_menu(user_id)

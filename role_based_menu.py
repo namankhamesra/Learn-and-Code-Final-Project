@@ -50,7 +50,8 @@ What do you want to do.....
 4. View complete menu
 5. Roll out finalized menu
 6. View Notification
-7. Logout
+7. Generate discard menu item list
+8. Logout
                                 
 Enter your choice: '''))
             if(user_choice == 1):
@@ -78,6 +79,10 @@ Enter your choice: '''))
                 information_need_to_send_to_server = chef_controller.view_notification()
                 return information_need_to_send_to_server
             elif(user_choice == 7):
+                chef_controller = ChefController()
+                information_need_to_send_to_server = chef_controller.generate_discard_menu_item_list()
+                return information_need_to_send_to_server
+            elif(user_choice == 8):
                 return "LOGOUT"
             else:
                 print("Invalid choice..!")

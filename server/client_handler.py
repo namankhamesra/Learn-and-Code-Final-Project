@@ -1,6 +1,7 @@
 import json
 import sys
 from chef.chef_service import ChefService
+from discard_menu_item import DiscardMenu
 from employee.employee_service import EmployeeService
 from feedback_service import Feedback
 from notification_service import Notification
@@ -59,6 +60,14 @@ class ClientHandler:
                     elif(request['action'] == "VIEW_VOTED_ITEMS"):
                         chef_service = ChefService()
                         response = chef_service.view_voted_items(request['date'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
+                    elif(request['action'] == "GENERATE_DISCARD_MENU_ITEM"):
+                        discard_item = DiscardMenu()
+                        response = discard_item.add_items_to_discard_list()
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
+                    elif(request['action'] == "REVIEW_DISCARDED_ITEM_LIST"):
+                        discard_item = DiscardMenu()
+                        response = discard_item.review_discarded_item_list()
                         self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "VIEW_NOTIFICATION"):
                         notification = Notification()

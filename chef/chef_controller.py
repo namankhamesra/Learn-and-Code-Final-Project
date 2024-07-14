@@ -47,3 +47,8 @@ class ChefController:
         request_from = "CHEF"
         item_detail_to_send_to_server = json.dumps({'action': action, 'data': {"request_from": request_from}})
         return item_detail_to_send_to_server
+    
+    def generate_discard_menu_item_list(self):
+        action = "GENERATE_DISCARD_MENU_ITEM"
+        item_detail_to_send_to_server = json.dumps({'action': action})
+        return item_detail_to_send_to_server
