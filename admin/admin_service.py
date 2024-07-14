@@ -53,7 +53,6 @@ class AdminService:
             db.disconnect()
             status = "Item deleted successfully"
         except Exception as e:
-            print(e)
             status = "Error in deleting item"
         response = {"action": "DELETE_ITEM", "status": status}
         return response

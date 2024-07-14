@@ -34,3 +34,8 @@ class AdminController:
         action = "FETCH_COMPLETE_MENU"
         item_detail_to_send_to_server = json.dumps({'action': action})
         return item_detail_to_send_to_server
+    
+    def view_complete_feedback(self):
+        action = "VIEW_FEEDBACK"
+        item_detail_to_send_to_server = json.dumps({'action': action})
+        return item_detail_to_send_to_server

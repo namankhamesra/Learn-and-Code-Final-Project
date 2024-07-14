@@ -30,7 +30,7 @@ class Notification:
                 values = None
             elif(role == "EMPLOYEE"):
                 query = """select n.message from (select message, notification_date from notification 
-                where notification_from = 'ADMIN' union 
+                where notification_from != 'CHEF' union 
                 select message, notification_date from notification 
                 where notification_from = 'CHEF' and notification_date = %s) as n 
                 order by n.notification_date DESC;"""

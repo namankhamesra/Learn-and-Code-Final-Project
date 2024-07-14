@@ -69,6 +69,22 @@ class ClientHandler:
                         discard_item = DiscardMenu()
                         response = discard_item.review_discarded_item_list()
                         self.client_socket.send(json.dumps(response).encode('utf-8'))
+                    elif(request['action'] == "TAKE_DETAILED_FEEDBACK"):
+                        chef_service = ChefService()
+                        response = chef_service.take_detailed_feedback()
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
+                    elif(request['action'] == "VIEW_DETAILED_FEEDBACK"):
+                        feedback = Feedback()
+                        response = feedback.get_feedback("detailed")
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
+                    elif(request['action'] == "VIEW_FEEDBACK"):
+                        feedback = Feedback()
+                        response = feedback.get_feedback()
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
+                    elif(request['action'] == "DELETE_DISCARDED_ITEMS"):
+                        chef_service = ChefService()
+                        response = chef_service.delete_discarded_items(request['data'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "VIEW_NOTIFICATION"):
                         notification = Notification()
                         response = notification.view_notification(request['data']['request_from'])
@@ -77,6 +93,10 @@ class ClientHandler:
                         feedback = Feedback()
                         response = feedback.provide_feedback(request['data'])
                         self.client_socket.send(json.dumps(response).encode('utf-8'))
+                    elif(request['action'] == "PROVIDE_DETAILED_FEEDBACK"):
+                        feedback = Feedback()
+                        response = feedback.provide_detailed_feedback(request['data'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "VIEW_NEXT_DAY_MENU"):
                         next_day_menu = MenuItem()
                         response = next_day_menu.view_next_day_menu()
@@ -84,6 +104,10 @@ class ClientHandler:
                     elif(request['action'] == "VOTE_FOR_FOOD_ITEM"):
                         employee_service = EmployeeService()
                         response = employee_service.vote_for_food_item(request['data'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
+                    elif(request['action'] == "VIEW_DISCARDED_ITEMS"):
+                        employee_service = EmployeeService()
+                        response = employee_service.view_discarded_items()
                         self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "EMPLOYEE_VIEW_NOTIFICATION"):
                         employee_service = EmployeeService()

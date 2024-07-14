@@ -9,8 +9,9 @@ class DiscardMenu:
             db.connect()
             query = """select max(discard_list_generation_date) from discarded_items;"""
             last_list_deneration_date = db.fetch_all(query)
+            last_list_deneration_date = datetime.strptime(last_list_deneration_date[0][0], "%Y-%m-%d")
             current_date = datetime.now()
-            difference_in_days = (current_date.date() - last_list_deneration_date[0][0]).days
+            difference_in_days = (current_date.date() - last_list_deneration_date).days
             return difference_in_days
         except Exception as e:
             if("'cafeteria_management.discarded_items' doesn't exist" in str(e)):
@@ -21,11 +22,10 @@ class DiscardMenu:
     def add_items_to_discard_list(self):
         try:
             if(self.check_last_discard_list_generation_date() >= 30):
-                print("in if")
                 db = DatabaseConnection(DB_CONFIG)
                 db.connect()
                 query = """create or replace view discarded_items as 
-                select f.item_id, item_name, avg(rating) as average_rating, avg(sentiment_score) as average_sentiment, CURDATE() as discard_list_generation_date 
+                select f.item_id, item_name, avg(rating) as average_rating, avg(sentiment_score) as average_sentiment, CAST(CURDATE() AS CHAR) AS discard_list_generation_date 
                 from feedback f join menu_item m on f.item_id = m.item_id
                 where m.is_deleted = 0 group by f.item_id having average_rating < 2.5 and average_sentiment < 0;"""
                 db.execute_query(query)
@@ -43,7 +43,6 @@ class DiscardMenu:
         try:
             db = DatabaseConnection(DB_CONFIG)
             db.connect()
-            self.add_items_to_discard_list()
             query = """select * from discarded_items;"""
             discarded_items = db.fetch_all(query)
             status = "Fetched list for discarded items"
@@ -51,7 +50,6 @@ class DiscardMenu:
         except Exception as e:
             status = "Error in fetching discarded items :( please try later."
             discarded_items = None
-        response = {"discarded_items": discarded_items, "status": status}
+        response = {"action": "REVIEW_DISCARDED_ITEM_LIST", "discarded_items": discarded_items, "status": status}
         return response
-    
     

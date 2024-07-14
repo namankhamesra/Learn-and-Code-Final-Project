@@ -68,3 +68,32 @@ class ChefService:
             print("Error in fetching voted items")
         response = {"action": "VIEW_VOTED_ITEMS", "data": voted_items}
         return response
+    
+    def delete_discarded_items(self, data):
+        try:
+            items_to_delete = ','.join(map(str,data['item_ids']))
+            db = DatabaseConnection(DB_CONFIG)
+            db.connect()
+            query = '''
+            update menu_item set is_deleted = 1 where item_id in (%s);
+            '''
+            values = (items_to_delete,)
+            db.execute_query(query, values)
+            db.disconnect()
+            status = "Item deleted successfully"
+        except Exception as e:
+            status = "Error in deleting item"
+        response = {"action": "DELETE_DISCARDED_ITEMS", "status": status}
+        return response
+    
+    def take_detailed_feedback(self):
+        try:
+            message = f"We have added few items in discard list please provide your detailed feedback for those items."
+            sender = "DISCARD_LIST"
+            notification = Notification(message,sender)
+            notification.send_notification()
+            status = "Asked employees to fill detailed feedback"
+        except Exception as e:
+            status = "Error while asking for detailed feedback"
+        response = {"action": "TAKE_DETAILED_FEEDBACK", "status": status}
+        return response

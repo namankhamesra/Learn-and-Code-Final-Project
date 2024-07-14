@@ -35,3 +35,17 @@ class EmployeeController:
         request_from = "EMPLOYEE"
         item_detail_to_send_to_server = json.dumps({'action': action, 'data': {"request_from": request_from}})
         return item_detail_to_send_to_server
+    
+    def provide_detailed_feedback(self,user_id):
+        action = "PROVIDE_DETAILED_FEEDBACK"
+        item_id = int(input("Enter the item_id: "))
+        liked = input("What you liked about this item: ")
+        disliked = input("What you disliked about this item: ")
+        home_recipe = input("Could you please provide your home recipe: ")
+        item_detail_to_send_to_server = json.dumps({'action': action, 'data': {'user_id':user_id, 'item_id': item_id, 'liked': liked, 'disliked': disliked, "home_recipe": home_recipe}})
+        return item_detail_to_send_to_server
+    
+    def view_discarded_items(self):
+        action = "VIEW_DISCARDED_ITEMS"
+        detail_to_send_to_server = json.dumps({'action': action})
+        return detail_to_send_to_server

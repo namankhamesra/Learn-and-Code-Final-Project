@@ -52,3 +52,40 @@ class ChefController:
         action = "GENERATE_DISCARD_MENU_ITEM"
         item_detail_to_send_to_server = json.dumps({'action': action})
         return item_detail_to_send_to_server
+    
+    def review_discarded_items(self):
+        action = "REVIEW_DISCARDED_ITEM_LIST"
+        item_detail_to_send_to_server = json.dumps({'action': action})
+        return item_detail_to_send_to_server
+    
+    def view_complete_feedback(self):
+        action = "VIEW_FEEDBACK"
+        item_detail_to_send_to_server = json.dumps({'action': action})
+        return item_detail_to_send_to_server
+    
+    def action_on_discarded_item(self):
+        while True:
+            choice = int(input('''
+What do you want to do with discarded items...
+                               
+1. Delete Items
+2. Take detailed feedback
+3. View detailed feedback
+                               
+Enter your choice: '''))
+            if(choice == 1):
+                action = "DELETE_DISCARDED_ITEMS"
+                item_ids = input("Enter item ids you want to delete (if multiple eater comma seperated): ").strip(",").split(",")
+                item_detail_to_send_to_server = json.dumps({'action': action, "data": {"item_ids": item_ids}})
+                break
+            elif(choice == 2):
+                action = "TAKE_DETAILED_FEEDBACK"
+                item_detail_to_send_to_server = json.dumps({'action': action})
+                break
+            elif(choice == 3):
+                action = "VIEW_DETAILED_FEEDBACK"
+                item_detail_to_send_to_server = json.dumps({'action': action})
+                break
+            else:
+                print("Invalid choice")
+        return item_detail_to_send_to_server
