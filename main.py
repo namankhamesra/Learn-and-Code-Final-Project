@@ -1,6 +1,6 @@
-from client import Client
+from client.client import Client
 from commons.literals import SERVER_IP, SERVER_PORT
-from role_based_menu import RoleBasedMenu
+from client.role_based_menu import RoleBasedMenu
 import json
 
 def main():

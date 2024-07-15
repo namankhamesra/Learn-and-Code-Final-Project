@@ -1,6 +1,6 @@
 from commons.literals import DB_CONFIG
 from database.db_connection import DatabaseConnection
-from notification_service import Notification
+from services.notification_service import Notification
 
 class AdminService:
 

@@ -1,7 +1,7 @@
 from commons.literals import DB_CONFIG
 from database.db_connection import DatabaseConnection
 from datetime import datetime, timedelta
-from menu_item import MenuItem
+from services.menu_item import MenuItem
 
 class RecommendationSystem:
 

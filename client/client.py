@@ -1,6 +1,6 @@
 import socket
 from commons.literals import SERVER_IP, SERVER_PORT, BUFFER_SIZE
-from role_based_menu import RoleBasedMenu
+from client.role_based_menu import RoleBasedMenu
 
 class Client:
     def __init__(self, server_ip, server_port):

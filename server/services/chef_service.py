@@ -1,8 +1,7 @@
-from recommendation_system import RecommendationSystem
+from services.recommendation_system import RecommendationSystem
 from commons.literals import DB_CONFIG
 from database.db_connection import DatabaseConnection
-from notification_service import Notification
-import datetime
+from services.notification_service import Notification
 
 class ChefService:
     

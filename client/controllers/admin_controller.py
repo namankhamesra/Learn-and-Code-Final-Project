@@ -1,4 +1,4 @@
-from menu_item import MenuItem
+from server.services.menu_item import MenuItem
 import json
 
 class AdminController:

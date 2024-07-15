@@ -1,14 +1,14 @@
 import json
 import sys
-from chef.chef_service import ChefService
-from discard_menu_item import DiscardMenu
-from employee.employee_service import EmployeeService
-from feedback_service import Feedback
-from notification_service import Notification
+from services.chef_service import ChefService
+from services.discard_menu_item import DiscardMenu
+from services.employee_service import EmployeeService
+from services.feedback_service import Feedback
+from services.notification_service import Notification
+from services.admin_service import AdminService
 sys.path.append("..")
-from admin.admin_service import AdminService
-from authentication import AuthService
-from menu_item import MenuItem
+from services.authentication import AuthService
+from services.menu_item import MenuItem
 
 class ClientHandler:
     def __init__(self, client_socket, client_address):

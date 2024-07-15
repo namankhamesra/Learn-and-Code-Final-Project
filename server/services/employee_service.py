@@ -1,7 +1,7 @@
 from commons.literals import DB_CONFIG
 from database.db_connection import DatabaseConnection
 import datetime
-from sentiment_analyzer import SentimentAnalyzer
+from services.sentiment_analyzer import SentimentAnalyzer
 
 
 class EmployeeService:
