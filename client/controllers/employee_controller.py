@@ -20,6 +20,10 @@ class EmployeeController:
         detail_to_send_to_server = json.dumps({'action': action, "data": {"user_id": user_id}})
         return detail_to_send_to_server
     
+    def logout(self):
+        item_detail_to_send_to_server = json.dumps({'action': "LOGOUT"})
+        return item_detail_to_send_to_server
+    
     def vote_for_food_item(self,user_id):
         action = "VOTE_FOR_FOOD_ITEM"
         num_items = int(input("Enter how many items you want to vote for: "))

@@ -9,8 +9,8 @@ def main():
 
     try:
         inClient = True
+        num_tries = 1
         while inClient:
-            num_tries = 1
             if not inClient:
                 break
             email = input("Enter your email to login to the system: ")
@@ -19,7 +19,7 @@ def main():
                 num_tries = num_tries + 1
                 print("Invalid credentials please try again..!")
                 if(num_tries > 3):
-                    print("Max retry limit reached.")
+                    print("if Max retry limit reached.")
                     break
             else:
                 response = json.loads(response)
@@ -28,11 +28,12 @@ def main():
                 if(user_role.lower() == "admin"):
                     while True:
                         request = RoleBasedMenu.admin_menu()
-                        if(request == "LOGOUT"):
-                            break
                         response = json.loads(client.send_message(request))
                         if(response['action'] == "ADD_MENU_ITEM"):
                             print(response['status'])
+                        elif(response['action'] == "LOGOUT"):
+                            print("Logged out..:)")
+                            break
                         elif(response['action'] == "UPDATE_AVAILABILITY"):
                             print(response['status'])
                         elif(response['action'] == "DELETE_ITEM"):
@@ -50,8 +51,6 @@ def main():
                 elif(user_role.lower() == "chef"):
                     while True:
                         request = RoleBasedMenu.chef_menu()
-                        if(request == "LOGOUT"):
-                            break
                         response = json.loads(client.send_message(request))
                         if(response['action'] == "GET_RECOMMENDATION"):
                             for category in response['data']:
@@ -59,6 +58,9 @@ def main():
                                 print("Item Id".ljust(10), "Item Name".ljust(20), "Price".ljust(20), "Availability Status".ljust(20), "Item Category".ljust(0))
                                 for i in response['data'][category]:
                                     print(str(i[0]).ljust(10),str(i[1]).ljust(20),str(i[2]).ljust(20),str(i[3]).ljust(20),str(i[4]).ljust(20))
+                        elif(response['action'] == "LOGOUT"):
+                            print("Logged out..:)")
+                            break
                         elif(response['action'] == "ROLL_OUT_MENU"):
                             print(response['status'])
                         elif(response['action'] == "FETCH_COMPLETE_MENU"):
@@ -98,13 +100,14 @@ def main():
                 elif(user_role.lower() == "employee"):
                     while True:
                         request = RoleBasedMenu.employee_menu(user_id)
-                        if(request == "LOGOUT"):
-                            break
                         response = json.loads(client.send_message(request))
                         if(response['action'] == "VIEW_NEXT_DAY_MENU"):
                             print("Item Id".ljust(10), "Item Name".ljust(20))
                             for i in response['data']['next_day_menu']:
                                 print(str(i[0]).ljust(10),str(i[1]).ljust(20))
+                        elif(response['action'] == "LOGOUT"):
+                            print("Logged out..:)")
+                            break
                         elif(response['action'] == "FETCH_COMPLETE_MENU"):
                             print("Item Id".ljust(10), "Item Name".ljust(20), "Price".ljust(20), "Availability Status".ljust(20), "Item Category".ljust(0))
                             for i in response['data']:

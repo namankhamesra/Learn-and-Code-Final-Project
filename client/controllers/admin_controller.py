@@ -51,3 +51,7 @@ class AdminController:
         item_property = {"item_id": item_id,"spice_level": spice_level, "dietry": dietry}
         item_detail_to_send_to_server = json.dumps({'action': action, "data":item_property})
         return item_detail_to_send_to_server
+    
+    def logout(self):
+        item_detail_to_send_to_server = json.dumps({'action': "LOGOUT"})
+        return item_detail_to_send_to_server

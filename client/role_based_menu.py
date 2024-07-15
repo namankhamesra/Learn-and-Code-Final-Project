@@ -44,7 +44,9 @@ Enter your choice: '''))
                 information_need_to_send_to_server = admin_controller.update_item_property()
                 return information_need_to_send_to_server
             elif(user_choice == 7):
-                return "LOGOUT"
+                admin_controller = AdminController()
+                information_need_to_send_to_server = admin_controller.logout()
+                return information_need_to_send_to_server
             else:
                 print("Invalid choice..!")
 
@@ -108,7 +110,9 @@ Enter your choice: '''))
                 information_need_to_send_to_server = chef_controller.view_complete_feedback()
                 return information_need_to_send_to_server
             elif(user_choice == 11):
-                return "LOGOUT"
+                chef_controller = ChefController()
+                information_need_to_send_to_server = chef_controller.logout()
+                return information_need_to_send_to_server
             else:
                 print("Invalid choice..!")
 
@@ -162,6 +166,8 @@ Enter your choice: '''))
                 information_need_to_send_to_server = employee_controller.update_profile(user_id)
                 return information_need_to_send_to_server
             elif(user_choice == 9):
-                return "LOGOUT"
+                employee_controller = EmployeeController()
+                information_need_to_send_to_server = employee_controller.logout()
+                return information_need_to_send_to_server
             else:
                 print("Invalid choice..!")

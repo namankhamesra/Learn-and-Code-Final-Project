@@ -11,7 +11,7 @@ class DiscardMenu:
             last_list_deneration_date = db.fetch_all(query)
             last_list_deneration_date = datetime.strptime(last_list_deneration_date[0][0], "%Y-%m-%d")
             current_date = datetime.now()
-            difference_in_days = (current_date.date() - last_list_deneration_date).days
+            difference_in_days = (current_date.date() - last_list_deneration_date.date()).days
             return difference_in_days
         except Exception as e:
             if("'cafeteria_management.discarded_items' doesn't exist" in str(e)):
