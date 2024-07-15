@@ -10,7 +10,6 @@ class AuthService:
         else:
             print("Authentication failed user not present.")
             return user
-        return user
     
     def get_user_details_from_email(self, email):
         db = DatabaseConnection(DB_CONFIG)

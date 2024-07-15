@@ -127,6 +127,7 @@ class ClientHandler:
             else:
                 print(f"User Not Authenticated")
                 response = "You are not registered to the system"
+                self.client_socket.send(response.encode('utf-8'))
         except (ConnectionResetError, ConnectionAbortedError):
             pass
         finally:
