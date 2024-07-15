@@ -15,9 +15,9 @@ class EmployeeController:
         item_detail_to_send_to_server = json.dumps({'action': action, 'data': {'user_id':user_id, 'item_id': item_id, 'comment': comment, 'rating': rating}})
         return item_detail_to_send_to_server
     
-    def view_next_day_menu(self):
+    def view_next_day_menu(self,user_id):
         action = "VIEW_NEXT_DAY_MENU"
-        detail_to_send_to_server = json.dumps({'action': action})
+        detail_to_send_to_server = json.dumps({'action': action, "data": {"user_id": user_id}})
         return detail_to_send_to_server
     
     def vote_for_food_item(self,user_id):
@@ -49,3 +49,10 @@ class EmployeeController:
         action = "VIEW_DISCARDED_ITEMS"
         detail_to_send_to_server = json.dumps({'action': action})
         return detail_to_send_to_server
+    
+    def update_profile(self, user_id):
+        action = "UPDATE_PROFILE"
+        spice_level = input("Enter your spice level (High, Medium, Low): ")
+        dietry = input("Enter your dietry preference (Veg, Non-veg): ")
+        item_detail_to_send_to_server = json.dumps({'action': action, 'data': {'user_id':user_id, 'spice_level': spice_level, 'dietry': dietry}})
+        return item_detail_to_send_to_server

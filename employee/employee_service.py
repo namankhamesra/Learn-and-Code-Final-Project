@@ -30,9 +30,23 @@ class EmployeeService:
             query = """select d.item_id, d.item_name from discarded_items d join menu_item m on m.item_id = d.item_id
             where m.is_deleted = 0;"""
             discarded_items = db.fetch_all(query)
-            print("in discarded")
             status = "Fetched discarded items"
+            db.disconnect()
         except Exception as e:
             status = "Error in fetching discarded items"
         response = {"action": "VIEW_DISCARDED_ITEMS", "discarded_items": discarded_items, "status": status}
+        return response
+    
+    def update_profile(self, data):
+        try:
+            db = DatabaseConnection(DB_CONFIG)
+            db.connect()
+            query = "insert into user_profile values (%s,%s,%s);"
+            values = (data['user_id'],data['spice_level'],data['dietry'])
+            db.execute_query(query, values)
+            db.disconnect()
+            status = "User profile updated successfully"
+        except Exception as e:
+            status = "Error while updating user profile try again later"
+        response = {"action": "UPDATE_PROFILE", "status": status} 
         return response

@@ -10,7 +10,10 @@ class AdminController:
         item_category = int(input("\nEnter item category (1 -> Breakfast, 2 -> Lunch, 3 -> Dinner): "))
         item = MenuItem(item_name=item_name,price=price,availability_status=availability_status,item_category=item_category)
         item_detail_in_json = item.to_dict()
-        item_detail_to_send_to_server = json.dumps({'action': action, 'data': item_detail_in_json})
+        spice_level = input("Enter spice level (High, Medium, Low): ")
+        dietry = input("Enter dietry (Veg, Non-veg): ")
+        item_property = {"spice_level": spice_level, "dietry": dietry}
+        item_detail_to_send_to_server = json.dumps({'action': action, 'data': item_detail_in_json,"item_property": item_property})
         return item_detail_to_send_to_server
     
     def update_item_availability(self):
@@ -38,4 +41,13 @@ class AdminController:
     def view_complete_feedback(self):
         action = "VIEW_FEEDBACK"
         item_detail_to_send_to_server = json.dumps({'action': action})
+        return item_detail_to_send_to_server
+    
+    def update_item_property(self):
+        action = "UPDATE_ITEM_PROPERTY"
+        item_id = int(input("\nEnter item_id: "))
+        spice_level = input("Enter spice level (High, Medium, Low): ")
+        dietry = input("Enter dietry (Veg, Non-veg): ")
+        item_property = {"item_id": item_id,"spice_level": spice_level, "dietry": dietry}
+        item_detail_to_send_to_server = json.dumps({'action': action, "data":item_property})
         return item_detail_to_send_to_server

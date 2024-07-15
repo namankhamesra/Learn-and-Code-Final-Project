@@ -32,7 +32,7 @@ class ClientHandler:
                     request = json.loads(data)
                     if(request['action'] == "ADD_MENU_ITEM"):
                         admin_service = AdminService()
-                        response = admin_service.add_menu_item(request['data'])
+                        response = admin_service.add_menu_item(request['data'], request['item_property'])
                         self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "UPDATE_AVAILABILITY"):
                         admin_service = AdminService()
@@ -41,6 +41,10 @@ class ClientHandler:
                     elif(request['action'] == "DELETE_ITEM"):
                         admin_service = AdminService()
                         response = admin_service.delete_item_from_menu(request['data'])
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
+                    elif(request['action'] == "UPDATE_ITEM_PROPERTY"):
+                        admin_service = AdminService()
+                        response = admin_service.update_item_properties(request['data'])
                         self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "FETCH_COMPLETE_MENU"):
                         response = MenuItem.fetch_complete_menu()
@@ -99,7 +103,7 @@ class ClientHandler:
                         self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "VIEW_NEXT_DAY_MENU"):
                         next_day_menu = MenuItem()
-                        response = next_day_menu.view_next_day_menu()
+                        response = next_day_menu.view_next_day_menu(request['data'])
                         self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "VOTE_FOR_FOOD_ITEM"):
                         employee_service = EmployeeService()
@@ -108,6 +112,10 @@ class ClientHandler:
                     elif(request['action'] == "VIEW_DISCARDED_ITEMS"):
                         employee_service = EmployeeService()
                         response = employee_service.view_discarded_items()
+                        self.client_socket.send(json.dumps(response).encode('utf-8'))
+                    elif(request['action'] == "UPDATE_PROFILE"):
+                        employee_service = EmployeeService()
+                        response = employee_service.update_profile(request['data'])
                         self.client_socket.send(json.dumps(response).encode('utf-8'))
                     elif(request['action'] == "EMPLOYEE_VIEW_NOTIFICATION"):
                         employee_service = EmployeeService()

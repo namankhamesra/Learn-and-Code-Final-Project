@@ -29,6 +29,8 @@ def main():
                         print(response['status'])
                     elif(response['action'] == "DELETE_ITEM"):
                         print(response['status'])
+                    elif(response['action'] == "UPDATE_ITEM_PROPERTY"):
+                        print(response['status'])
                     elif(response['action'] == "VIEW_FEEDBACK"):
                         print("User Id".ljust(10), "Item Id".ljust(20), "Comment".ljust(40), "Rating".ljust(40), "Sentiment Score".ljust(0))
                         for i in response['feedback']:
@@ -92,9 +94,9 @@ def main():
                         break
                     response = json.loads(client.send_message(request))
                     if(response['action'] == "VIEW_NEXT_DAY_MENU"):
-                        print("Item Id".ljust(10), "Item Name".ljust(20), "Price".ljust(20), "Availability Status".ljust(20), "Item Category".ljust(0))
+                        print("Item Id".ljust(10), "Item Name".ljust(20))
                         for i in response['data']['next_day_menu']:
-                            print(str(i[0]).ljust(10),str(i[1]).ljust(20),str(i[2]).ljust(20),str(i[3]).ljust(20),str(i[4]).ljust(20))
+                            print(str(i[0]).ljust(10),str(i[1]).ljust(20))
                     elif(response['action'] == "FETCH_COMPLETE_MENU"):
                         print("Item Id".ljust(10), "Item Name".ljust(20), "Price".ljust(20), "Availability Status".ljust(20), "Item Category".ljust(0))
                         for i in response['data']:
@@ -111,6 +113,8 @@ def main():
                         for i in response['discarded_items']:
                             print(str(i[0]).ljust(10),str(i[1]).ljust(0))
                     elif(response['action'] == "PROVIDE_DETAILED_FEEDBACK"):
+                        print(response['status'])
+                    elif(response['action'] == "UPDATE_PROFILE"):
                         print(response['status'])
             else:
                 print(response)

@@ -39,12 +39,24 @@ class MenuItem:
         db.disconnect()
         return menu_items
     
-    def view_next_day_menu(self):
+    def view_next_day_menu(self, data):
         try:
             db = DatabaseConnection(DB_CONFIG)
             db.connect()
-            query = f"select item_id,item_name,price,availability_status,item_category from item_for_next_day;"
+            query = f"""select pref.item_id, pref.item_name from (SELECT infd.item_id, infd.item_name,
+                CASE WHEN ep.dietry = f.dietry THEN 1 ELSE 0 END AS dietary_match,
+                CASE WHEN ep.spice_level = f.spice_level THEN 1 ELSE 0 END AS spice_level_match
+            FROM user_profile ep
+            LEFT JOIN item_for_next_day infd ON 1=1
+            LEFT JOIN meal_property f ON infd.item_id = f.item_id
+            WHERE ep.user_id = {data['user_id']}
+            ORDER BY dietary_match DESC,
+                    spice_level_match DESC) pref;
+            """
             next_day_menu = db.fetch_all(query)
+            if(len(next_day_menu) == 0):
+                query = """select item_id, item_name from item_for_next_day;"""
+                next_day_menu = db.fetch_all(query)
             db.disconnect()
         except Exception as e:
             print("Error in next day menu items")

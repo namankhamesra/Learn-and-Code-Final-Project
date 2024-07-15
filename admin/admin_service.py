@@ -4,7 +4,18 @@ from notification_service import Notification
 
 class AdminService:
 
-    def add_menu_item(self,data):
+    def fetch_latest_item_id(self):
+        try:
+            db = DatabaseConnection(DB_CONFIG)
+            db.connect()
+            query = "select max(item_id) as latest_id from menu_item;"
+            latest_id = db.fetch_all(query)[0][0]
+            db.disconnect()
+        except:
+            print("No item added recently")
+        return latest_id
+    
+    def add_menu_item(self,data,item_property):
         try:
             db = DatabaseConnection(DB_CONFIG)
             db.connect()
@@ -14,6 +25,9 @@ class AdminService:
             values = (data['item_name'], data['price'], data['availability_status'], data['item_category'])
             db.execute_query(query, values)
             db.disconnect()
+            latest_id = self.fetch_latest_item_id()
+            item_property['item_id'] = latest_id
+            response = self.update_item_properties(item_property)
             message = f"New item {data['item_name']} has been added to menu."
             sender = "ADMIN"
             notification = Notification(message,sender)
@@ -24,6 +38,20 @@ class AdminService:
         response = {"action": "ADD_MENU_ITEM", "status": status}
         return response
     
+    def update_item_properties(self, item_property):
+        try:
+            db = DatabaseConnection(DB_CONFIG)
+            db.connect()
+            query = """insert into meal_property values (%s,%s,%s);"""
+            values = (item_property['item_id'], item_property['spice_level'], item_property['dietry'])
+            db.execute_query(query, values)
+            db.disconnect()
+            status = "Item properties updated successfully"
+        except Exception as e:
+            status = "Error while updating item properties"
+        response = {"action": "UPDATE_ITEM_PROPERTY", "status": status}
+        return response
+
     def update_item_availability(self,data):
         try:
             db = DatabaseConnection(DB_CONFIG)

@@ -15,7 +15,8 @@ What do you want to do.....
 3. Delete item from menu
 4. Display all menu items
 5. View complete feedback
-6. Logout
+6. Update item property
+7. Logout
                                 
 Enter your choice: '''))
             if(user_choice == 1):
@@ -39,6 +40,10 @@ Enter your choice: '''))
                 information_need_to_send_to_server = admin_controller.view_complete_feedback()
                 return information_need_to_send_to_server
             elif(user_choice == 6):
+                admin_controller = AdminController()
+                information_need_to_send_to_server = admin_controller.update_item_property()
+                return information_need_to_send_to_server
+            elif(user_choice == 7):
                 return "LOGOUT"
             else:
                 print("Invalid choice..!")
@@ -120,12 +125,13 @@ What do you want to do.....
 5. View notification
 6. Provide detailed feedback
 7. View discarded items
-8. Logout
+8. Update profile
+9. Logout
                                 
 Enter your choice: '''))
             if(user_choice == 1):
                 employee_controller = EmployeeController()
-                information_need_to_send_to_server = employee_controller.view_next_day_menu()
+                information_need_to_send_to_server = employee_controller.view_next_day_menu(user_id)
                 return information_need_to_send_to_server
             elif(user_choice == 2):
                 employee_controller = EmployeeController()
@@ -152,6 +158,10 @@ Enter your choice: '''))
                 information_need_to_send_to_server = employee_controller.view_discarded_items()
                 return information_need_to_send_to_server
             elif(user_choice == 8):
+                employee_controller = EmployeeController()
+                information_need_to_send_to_server = employee_controller.update_profile(user_id)
+                return information_need_to_send_to_server
+            elif(user_choice == 9):
                 return "LOGOUT"
             else:
                 print("Invalid choice..!")
